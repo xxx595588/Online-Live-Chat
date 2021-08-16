@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Post page{% endblock %}
+{% block content %}
+
+<br>
+
+<div class="h-75 overflow-auto " id="display" name='display' align="center" >
+</div>
+
+
+<div class="fixed-bottom" style="text-align: center; opacity: 90%;">
+  <form id="post_form" name = "post_form" method="POST">
+    {% csrf_token %}
+    {{form}}
+  <button type="submit" class="btn btn-success" id="send_mes">Send</button>
+  <button type="button" class="btn btn-success" id="to_bottom" onclick="toBottomFunction()">Back to bottom</button>
+  
+  </form>
+  
+ 
+</div>
+
+<script>
+  function toBottomFunction(){
+    var div = document.getElementById('display');
+    $('#display').animate({
+      scrollTop: div.scrollHeight - 50
+      }, 500);
+  }
+
+$('#post_form').on('submit', function(e){ 
+  e.preventDefault();
+  $.ajax({
+    type:"POST",
+    url: "{% url 'createMes' %}",
+    data:{text:$('#text').val(),
+    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+  },
+    success: function(text){
+      alert(text);
+    }
+  });
+  document.post_form.reset();
+});
+
+$(document).ready(function(){
+
+  var watcher = "{{cur_size}}";
+
+  setInterval(function(){
+    $.ajax({
+
+        type:"GET",
+        url: "/getMessage/",
+        success: function(response){
+          
+          if(response.message.length > watcher){
+            
+            var div = document.getElementById('display');
+
+            if(div.offsetHeight < div.scrollHeight && div.scrollTop + div.offsetHeight + 150 > div.scrollHeight){
+              $('#display').animate({
+              scrollTop: div.scrollHeight
+              }, 500);
+            }
+            
+            watcher = response.message.length;
+          }
+
+          $("#display").empty();
+          for(var key in response.message){
+            var temp = "<div class='card w-25' style='opacity:80%;''><div class='card-body'><h5 class='card-title'><strong>"+response.message[key].authorname+"</strong></h5><p class='card-text'>"+response.message[key].text+"</p><p class='card-text'>"+response.message[key].send_at+"</p></div></div>";
+            $("#display").append(temp)
+          }
+        },
+        error: function(response){}
+    });
+  },100);
+})
+</script>
+
+{% endblock %}
