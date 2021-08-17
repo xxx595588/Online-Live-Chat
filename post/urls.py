@@ -5,4 +5,5 @@ urlpatterns = [
      path('post/', views.post, name='post'),
      path('getMessage/', views.getMessage, name='getMessage'),
      path('createMes/', views.createMes, name='createMes'),
+     path('chatroom/', views.chatroom, name='chatroom'),
 ]
