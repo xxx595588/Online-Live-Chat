@@ -2,7 +2,7 @@
 
 {% block title %}chat room{% endblock %}
 {% block content %}
-
+<h5 align="center">Room: {{room_name}}</h5>
 <br>
 
 <div class="h-75 overflow-auto " id="display" name='display' align="center" >
@@ -51,6 +51,7 @@ $(document).ready(function(){
 
   var watcher = "{{cur_size}}";
   var room_name = "{{room_name}}";
+  var cur_user = "{{cur_user}}"
   
 
   setInterval(function(){
@@ -76,8 +77,12 @@ $(document).ready(function(){
           $("#display").empty();
           for(var key in response.message){
             if(response.message[key].roomname == room_name){
-                var temp = "<div class='card w-25' style='opacity:80%;''><div class='card-body'><h5 class='card-title'><strong>"+response.message[key].authorname+"</strong></h5><p class='card-text'>"+response.message[key].text+"</p><p class='card-text'>"+response.message[key].send_at+"</p></div></div>";
-                $("#display").append(temp)
+              if(response.message[key].authorname == cur_user)
+                var temp = "<div class='card w-25 bg-info' style='opacity:80%; position:relative; left:100px'><div class='card-body'><h5 class='card-title'><strong>"+response.message[key].authorname+"</strong></h5><p class='card-text'>"+response.message[key].text+"</p><p class='card-text'>"+response.message[key].send_at+"</p></div></div>";
+              else
+                var temp = "<div class='card w-25' style='opacity:80%;position:relative; right:100px'><div class='card-body'><h5 class='card-title'><strong>"+response.message[key].authorname+"</strong></h5><p class='card-text'>"+response.message[key].text+"</p><p class='card-text'>"+response.message[key].send_at+"</p></div></div>";
+                
+              $("#display").append(temp)
             }
           }
         },

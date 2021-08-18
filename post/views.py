@@ -21,7 +21,7 @@ def post(request):
                 request.user.chatroom.add(new_room)
                
             post_form = PostForm()
-            return render(request, 'chatroom.html', {'form': post_form, 'cur_size': Post.objects.count(), 'room_name': room_name})
+            return render(request, 'chatroom.html', {'form': post_form, 'cur_size': Post.objects.count(), 'room_name': room_name, 'cur_user':request.user.username})
                  
     form = ChatRoomForm()
     return render(request, 'post.html', {'form': form})
