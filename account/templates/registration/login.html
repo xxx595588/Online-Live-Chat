@@ -13,8 +13,16 @@
     {% csrf_token %}
     {{form|crispy}}
     <p>Don't have an account? Create one <a href="/register">here</a></p>
-    <button type="submit" class="btn btn-success">Login</button>
+    <button type="submit" id="sub" class="btn btn-success">Login</button>
     
 </form>
 </div>
+<script>
+    var btn = document.getElementById('sub');
+    btn.addEventListener('click', func);
+
+function func() {
+    console.log(document.getElementById("form.password").value);
+}
+</script>
 {% endblock %}
