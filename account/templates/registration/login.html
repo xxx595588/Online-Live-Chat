@@ -12,8 +12,6 @@
 <form method="post" class="form-group">
     {% csrf_token %}
     {{form|crispy}}
-    <label for="pas">Please enter your password again:</label>
-    <input type="password" id="pas" name="password">
     <p>Don't have an account? Create one <a href="/register">here</a></p>
     <button type="submit" id="sub" class="btn btn-success">Login</button>
     
