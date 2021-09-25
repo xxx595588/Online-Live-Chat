@@ -20,11 +20,13 @@
 </form>
 </div>
 <script>
+    {{ form.field_name.auto_id }}
+
     var btn = document.getElementById('sub');
     btn.addEventListener('click', func);
 
 function func() {
-    console.log(document.getElementById("pas").value);
+    console.log(document.getElementById("{{ form.password.auto_id }}").value);
 }
 </script>
 {% endblock %}
